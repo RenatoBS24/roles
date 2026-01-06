@@ -10,7 +10,15 @@ class User extends Entity
     protected $datamap = [
         "userId" => "id_usuario",
         "userName" => "nombre_usuario",
-        "password" => "clave"
-
+        "password" => "clave",
+        "rolId" => "id_rol",
+        "personId" => "id_persona",
+    ];
+    protected $attributes = [
+        "userId" => null,
+        "userName" => null,
+        "password" => null,
+        "rolId" => null,
+        "personId" => null,
     ];
 }
