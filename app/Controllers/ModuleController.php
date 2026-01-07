@@ -74,7 +74,24 @@ class ModuleController extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        try {
+            $data = $this->request->getJSON(true);
+            $response = $this->moduleService->updateModule($id, $data);
+
+            if (!$response['success']) {
+                return $this->failValidationErrors($response['error']);
+            }
+
+            return $this->respondUpdated([
+                'module' => $response['response'],
+                'message' => 'Se actualizo de manera exitosa'
+            ]);
+        } catch (\Exception $ex) {
+            return $this->fail($ex->getMessage(), 400);
+        } catch (\Throwable $th) {
+            log_message('error', $th->getMessage());
+            return $this->failServerError("Error interno del servidor");
+        }
     }
 
     /**

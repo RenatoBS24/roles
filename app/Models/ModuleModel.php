@@ -26,7 +26,7 @@ class ModuleModel extends Model
 
     protected $validationRules = [
         'id_modulo' => 'required',
-        'nombre_modulo' => 'is_unique[modulo.nombre_modulo,id_modulo,{id_modulo}]|regex_match[/^[a-zA-Z0-9_]{3,100}$/]'
+        'nombre_modulo' => 'required|is_unique[modulo.nombre_modulo,id_modulo,{id_modulo}]|regex_match[/^[a-zA-Z0-9_ ]{3,100}$/]'
     ];
 
     protected $validationCreateRules = [
