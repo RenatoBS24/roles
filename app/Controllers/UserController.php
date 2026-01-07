@@ -19,8 +19,8 @@ class UserController extends ResourceController
     public function showByUsername($username = null):ResponseInterface{
         return $this->respond($this->userService->findUserByUsername($username));
     }
-    public function showUserWithModules(int $userId):ResponseInterface{
-        return $this->respond($this->userService->findUserWithModules($userId));
+    public function showUserWithModules(string $userName):ResponseInterface{
+        return $this->respond($this->userService->findUserWithModules($userName));
     }
 
 

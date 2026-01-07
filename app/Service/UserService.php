@@ -17,7 +17,7 @@ class UserService
     {
         return $this->userRepository->findAll();
     }
-    public function findUserWithModules(int $userId):array{
+    public function findUserWithModules(string $userName):array{
         $builder = $this->userRepository->builder();
         $builder->from('usuario u',true);
         $builder->select('u.id_usuario as userId, u.nombre_usuario as userName, r.id_rol as roleId, r.nombre_rol as roleName, o.nombre_oficina as officeName');
@@ -25,22 +25,22 @@ class UserService
         $builder->join('persona p', 'u.id_persona = p.id_persona');
         $builder->join('trabajador t', 'p.id_persona = t.id_persona');
         $builder->join('oficina o', 't.id_oficina = o.id_oficina');
-        $builder->where('u.id_usuario', $userId);
+        $builder->where('u.nombre_usuario', $userName);
         $query = $builder->get();
         $firstArray= $query->getRowArray();
-        $modules = $this->findModulesByUserId($userId);
+        $modules = $this->findModulesByUserName($userName);
         $firstArray['modules'] = $modules;
         return $firstArray;
 
     }
-    public function findModulesByUserId(int $userId): array
+    public function findModulesByUserName(string $userName): array
     {
         $builder = $this->userRepository->builder();
         $builder->from('usuario u',true);
         $builder->select('m.id_modulo AS moduleId, m.nombre_modulo as ModuleName');
         $builder->join('usuario_permiso_menu upm', 'u.id_usuario = upm.id_usuario');
         $builder->join('modulo m', 'upm.id_modulo = m.id_modulo');
-        $builder->where('u.id_usuario', $userId);
+        $builder->where('u.nombre_usuario', $userName);
         $query = $builder->get();
         return $query->getResultArray();
     }

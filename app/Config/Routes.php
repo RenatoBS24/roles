@@ -17,7 +17,8 @@ $routes->group('modules', function ($routes) {
     $routes->put('update/(:num)', 'ModuleController::update/$1');
 });
 
-$routes->group('permiso', function ($routes) {
-    $routes->post('create', 'UsuarioMenuController::create');
+$routes->group('/api/permission', function ($routes) {
+    $routes->options('update', function() { return; });
+    $routes->post('update', 'UsuarioMenuController::update');
     $routes->delete('delete/(:num)', 'UsuarioMenuController::delete/$1');
 });

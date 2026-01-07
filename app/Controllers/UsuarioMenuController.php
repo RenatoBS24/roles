@@ -44,20 +44,7 @@ class UsuarioMenuController extends ResourceController
      */
     public function create()
     {
-        try {
-            $data = $this->request->getJSON(true);
 
-            $respuesta = $this->usuario_menu_service->darPermiso($data);
-
-            if (!$respuesta['success']) {
-                return $this->failValidationErrors($respuesta['error']);
-            }
-
-            return $this->respondCreated(['permisoCreado' => $respuesta['permisoCreate']]);
-        } catch (\Throwable $th) {
-            log_message('Error', $th->getMessage());
-            return $this->fail("Error interno del servidor");
-        }
     }
 
     /**
@@ -67,9 +54,22 @@ class UsuarioMenuController extends ResourceController
      *
      * @return ResponseInterface
      */
-    public function update($id = null)
+    public function update($id = null):ResponseInterface
     {
-        //
+        try {
+            $data = $this->request->getJSON(true);
+
+            $respuesta = $this->usuario_menu_service->darPermiso($data);
+
+            if (!$respuesta['success']) {
+                return $this->failValidationErrors($respuesta['error']);
+            }
+
+            return $this->respondCreated($respuesta);
+        } catch (\Throwable $th) {
+            log_message('Error', $th->getMessage());
+            return $this->fail("Error interno del servidor");
+        }
     }
 
     /**
@@ -79,7 +79,7 @@ class UsuarioMenuController extends ResourceController
      *
      * @return ResponseInterface
      */
-    public function delete($id = null)
+    public function delete($id = null):ResponseInterface
     {
         try {
             if (!$id) {

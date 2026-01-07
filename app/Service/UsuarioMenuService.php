@@ -15,18 +15,33 @@ class UsuarioMenuService
 
     public function darPermiso($data)
     {
+        $existPermission = $this->usuario_menu_model->where('id_usuario', $data['id_usuario'])
+            ->where('id_modulo', $data['id_modulo'])
+            ->first();
+        if($existPermission){
+            if(!$this->usuario_menu_model->delete($existPermission['id_permiso'])){
+                return [
+                    'success' => false,
+                    'error' => 'No se pudo eliminar el permiso existente'
+                ];
+            }
+            return [
+                'success' => true,
+                'action' => 'removed',
+                'message' => 'Permiso eliminado correctamente'
+            ];
+        }
         if (!$this->usuario_menu_model->insert($data)) {
             return [
                 'success' => false,
                 'error' => $this->usuario_menu_model->errors()
             ];
         }
-
-        $data['id_permiso'] = $this->usuario_menu_model->getInsertID();
-
         return [
             'success' => true,
-            'permisoCreate' => $data
+            'action' => 'added',
+            'id_permiso' => $this->usuario_menu_model->getInsertID(),
+            'message' => 'Permiso agregado correctamente'
         ];
     }
 
