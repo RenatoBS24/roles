@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/api/user/username/(:segment)', 'UserController::showByUsername/$1');
+$routes->get('/api/user/(:segment)', 'UserController::showUserWithModules/$1');
 $routes->resource('/api/user', ['controller' => 'UserController']);
 
 
