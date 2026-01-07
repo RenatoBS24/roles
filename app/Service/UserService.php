@@ -17,9 +17,10 @@ class UserService
     {
         return $this->userRepository->findAll();
     }
-    public function findUserWithModules(string $userName):array{
+    public function findUserWithModules(string $userName): array
+    {
         $builder = $this->userRepository->builder();
-        $builder->from('usuario u',true);
+        $builder->from('usuario u', true);
         $builder->select('u.id_usuario as userId, u.nombre_usuario as userName, r.id_rol as roleId, r.nombre_rol as roleName, o.nombre_oficina as officeName');
         $builder->join('rol r', 'u.id_rol = r.id_rol');
         $builder->join('persona p', 'u.id_persona = p.id_persona');
@@ -27,16 +28,15 @@ class UserService
         $builder->join('oficina o', 't.id_oficina = o.id_oficina');
         $builder->where('u.nombre_usuario', $userName);
         $query = $builder->get();
-        $firstArray= $query->getRowArray();
+        $firstArray = $query->getRowArray();
         $modules = $this->findModulesByUserName($userName);
         $firstArray['modules'] = $modules;
         return $firstArray;
-
     }
     public function findModulesByUserName(string $userName): array
     {
         $builder = $this->userRepository->builder();
-        $builder->from('usuario u',true);
+        $builder->from('usuario u', true);
         $builder->select('m.id_modulo AS moduleId, m.nombre_modulo as ModuleName');
         $builder->join('usuario_permiso_menu upm', 'u.id_usuario = upm.id_usuario');
         $builder->join('modulo m', 'upm.id_modulo = m.id_modulo');
@@ -49,4 +49,24 @@ class UserService
         return $this->userRepository->where('nombre_usuario', $username)->first();
     }
 
+    public function login($userName, $clave)
+    {
+        $usuario = $this->userRepository->userWithRole($userName);
+
+        if (empty($usuario)) {
+            throw new \Exception("No se encontro ningún usuario");
+        }
+
+        if ($clave !== $usuario->password) {
+            throw new \Exception("Clave incorreca",);
+        }
+
+        $result = [
+            'id_usuario' => $usuario->id_usuario,
+            'usuario' => $usuario->nombre_usuario,
+            'rol' => $usuario->rol
+        ];
+
+        return $result;
+    }
 }

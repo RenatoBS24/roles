@@ -14,11 +14,5 @@ class User extends Entity
         "rolId" => "id_rol",
         "personId" => "id_persona",
     ];
-    protected $attributes = [
-        "userId" => null,
-        "userName" => null,
-        "password" => null,
-        "rolId" => null,
-        "personId" => null,
-    ];
+    protected $attributes = [];
 }

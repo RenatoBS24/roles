@@ -3,6 +3,7 @@
 namespace Config;
 
 use CodeIgniter\Config\BaseService;
+use App\Libraries\JWT_Manager;
 
 /**
  * Services Configuration file.
@@ -29,4 +30,13 @@ class Services extends BaseService
      *     return new \CodeIgniter\Example();
      * }
      */
+
+    public static function JWT($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('JWT');
+        }
+
+        return new JWT_Manager(getenv('JWT_SECRET_KEY'));
+    }
 }
