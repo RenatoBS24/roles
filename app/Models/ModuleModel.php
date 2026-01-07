@@ -30,11 +30,12 @@ class ModuleModel extends Model
     ];
 
     protected $validationCreateRules = [
-        'nombre_modulo' => 'min_length[3]|max_length[100]|is_unique[modulo.nombre_modulo]|regex_match[/^[a-zA-Z0-9_]{3,100}$/]'
+        'nombre_modulo' => 'required|min_length[3]|max_length[100]|is_unique[modulo.nombre_modulo]|regex_match[/^[a-zA-Z0-9_ ]{3,100}$/]'
     ];
 
     protected $validationMessages   = [
-        'nombre' => [
+        'nombre_modulo' => [
+            'required' => 'El nombre del modulo es requerido',
             'is_unique' => 'El nombre del modulo ya existe.',
             'regex_match' => 'El nombre contiene caracteres no permitidos.',
             'min_length' => 'El nombre debe tener al menos 3 caracteres.',
