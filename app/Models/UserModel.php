@@ -14,12 +14,11 @@ class UserModel extends Model
     protected $table = 'usuario';
     protected $primaryKey = 'id_usuario';
     protected $returnType = User::class;
-    protected $allowedFields= [
+    protected $allowedFields = [
         'nombre_usuario',
         'clave',
         'id_rol',
         'id_persona',
     ];
     protected $useTimestamps = false;
-
 }

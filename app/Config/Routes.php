@@ -16,3 +16,8 @@ $routes->group('modules', function ($routes) {
     $routes->post('create', 'ModuleController::create');
     $routes->put('update/(:num)', 'ModuleController::update/$1');
 });
+
+$routes->group('permiso', function ($routes) {
+    $routes->post('create', 'UsuarioMenuController::create');
+    $routes->delete('delete/(:num)', 'UsuarioMenuController::delete/$1');
+});
