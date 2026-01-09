@@ -47,4 +47,7 @@ class MenuSistemaModel extends Model
             'is_not_unique' => 'El menu padre seleccionado no existe'
         ]
     ];
+    public function getMenusByIdS(array $ids):array{
+        return $this->whereIn("id_menu_sistema", $ids)->findAll();
+    }
 }
